@@ -1,0 +1,48 @@
+class Solution(object):
+    def compress(self, chars):
+        """
+        :type chars: List[str]
+        :rtype: int
+        """
+
+
+        counter = 0
+        idx = 0
+        current_char = ''
+        current_repetition = 0
+
+        old_len = len(chars)
+
+        while counter < old_len:
+
+            if chars[idx] == current_char:
+                current_repetition += 1
+
+                del chars[idx]
+                idx -= 1
+
+            elif chars[idx] != current_char and current_repetition > 1:
+
+                str_repCount = str(current_repetition)
+                for i in range(len(str_repCount)):
+                    chars.insert(idx+i, str_repCount[i])
+                
+                idx += len(str_repCount)
+                
+                current_repetition = 1
+                current_char = chars[idx]
+            
+            elif chars[idx] != current_char:
+                current_repetition = 1
+                current_char = chars[idx]
+
+            counter += 1
+            idx += 1
+
+        if current_repetition > 1:
+            str_repCount = str(current_repetition)
+            for i in range(len(str_repCount)):
+                chars.insert(idx+i, str_repCount[i])
+                idx += 1
+            
+        return len(chars)
